@@ -7,7 +7,7 @@
 
 #set up some constants
 nStory <- 100 #height of tower
-breaksOn <- 50 #we'll try every possible answer to see when different jumps are better
+breaksOn <- 14 #we'll try every possible answer to see when different jumps are better
 startAt <- 1 #try every position, but assuming that high values will be bad
 jumps <- 2 #trying them all, but again assuming that too much will be bad
 nphones <- 2 #given
@@ -25,6 +25,7 @@ x <- 1
 y <- 1
 z <- 1
 while (nphones>0) {
+  change <- FALSE
   if (nphones == 0) {
     dropTracker(x,y,z) <- dropCount #placeholder for when we have loops
     break
@@ -32,14 +33,19 @@ while (nphones>0) {
   #do the drop. if from too high, lose phone. either way, counts as drop
   if (onFloor >= breakPoint) {
     nphones <- nphones-1
+    change <- TRUE #mark if we broke a phone
   }
   dropCount <- dropCount+1
   #now change floors
-  if (nphones == 1) { #if we're on our last phone, we'll just be going up one at a time
-    jumps <- 1
+  if (change) { #if we break a phone, need to go back to floor above the last successful drop
+    onFloor <- onFloor - jumps + 1
+  } else { #otherwise, proceed as normal
+    onFloor <- onFloor + jumps
   }
-  onFloor <- onFloor + jumps
   if (onFloor > nStory) { #so we don't go over the height of the building
     onFloor <- nStory
+  }
+  if (nphones == 1) { #if we're on our last phone, we'll just be going up one at a time
+    jumps <- 1
   }
 }
