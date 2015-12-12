@@ -25,13 +25,10 @@ dropCount <- array(0,c(length(startAt),length(breaksOn),length(jumps)))
 
 #loop through our options
 while (nphones>0) {
-  for (iteration in jumps) {
-    for (onFloor in startAt) {
-      for (breaks in breaksOn) {
-        breakPoint <- breaks
-        floor<- onFloor
-        result <- dropPhone(floor,breakPoint)
-      }
-    }
+  if (nphones == 0) {
+    break
   }
+  breakPoint <- breaksOn
+  floor<- startAt
+  dropCount <- dropPhone(floor,breakPoint)
 }
