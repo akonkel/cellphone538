@@ -12,13 +12,14 @@ startAt <- 1 #try every position, but assuming that high values will be bad
 jumps <- 2 #trying them all, but again assuming that too much will be bad
 nphones <- 2 #given
 
-
 #critical answer is the drop count
 dropTracker <- array(0,c(length(startAt),length(breaksOn),length(jumps)))
 
 #loop through our options
 for (broken in 1:length(breaksOn)) {
   onFloor<- startAt
+  jumps <- 2 #need to reset per test
+  nphones <- 2 #same
   breakPoint <- breaksOn[broken]
   #do the dropping
   dropCount <- 0
@@ -40,6 +41,9 @@ for (broken in 1:length(breaksOn)) {
     }
     if (onFloor > nStory) { #so we don't go over the height of the building
       onFloor <- nStory
+    }
+    if (onFloor <1) { #so it doesn't try to go back too far
+      onFloor <- 1
     }
     if (nphones == 1) { #if we're on our last phone, we'll just be going up one at a time
       jumps <- 1
