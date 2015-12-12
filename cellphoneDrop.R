@@ -58,6 +58,3 @@ for (startPoint in 1:length(startAt)) {
     }
   }
 }
-print(apply(dropTracker,1,min))
-print(apply(dropTracker,2,min))
-print(apply(dropTracker,3,min))
