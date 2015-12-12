@@ -20,15 +20,29 @@ dropPhone <- function(floor, breakPoint) {
   dropCount <- dropCount+1
 }
 
+#make a function to change floors after a drop
+changeFloors <- function(floor,jumps,nStory,nphones) {
+  if (nphones == 1) { #if we're on our last phone, we'll just be going up one at a time
+    jump <- 1
+  }
+  floor <- floor + jumps
+  if (floor > nStory) { #so we don't go over the height of the building
+    floor <- nStory
+  }
+}
+
 #critical answer is the drop count
-dropCount <- array(0,c(length(startAt),length(breaksOn),length(jumps)))
+dropTracker <- array(0,c(length(startAt),length(breaksOn),length(jumps)))
 
 #loop through our options
+floor<- startAt
+#do the dropping
+dropCount <- 0
 while (nphones>0) {
   if (nphones == 0) {
     break
   }
   breakPoint <- breaksOn
-  floor<- startAt
   dropCount <- dropPhone(floor,breakPoint)
+  floor <- changeFloors(floor,jumps,nStory,nphones)
 }
